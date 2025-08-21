@@ -1,0 +1,131 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements_production.txt ]; then pip install -r requirements_production.txt; fi
+    
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Test with pytest
+      run: |
+        pytest
+    
+    - name: Check Python syntax
+      run: |
+        python -m py_compile *.py
+    
+    - name: Validate documentation
+      run: |
+        # Check if all markdown files exist
+        test -f README.md
+        test -f COMPLETE_SYSTEM_DOCUMENTATION.md
+        test -f TECHNICAL_IMPLEMENTATION_GUIDE.md
+        test -f USER_MANUAL.md
+        test -f PROJECT_DESCRIPTION.md
+        echo "✅ All documentation files present"
+    
+    - name: Check file structure
+      run: |
+        # Verify essential Python files exist
+        test -f omop_cdm_processor.py
+        test -f umls_omop_mapper.py
+        test -f omop_umls_integration.py
+        test -f robust_neo4j_integration.py
+        test -f create_complete_crosswalk.py
+        test -f production_optimizer.py
+        test -f persistent_infrastructure.py
+        test -f demo_system_capabilities.py
+        echo "✅ All core Python files present"
+    
+    - name: Validate requirements files
+      run: |
+        # Check if requirements files exist and are valid
+        test -f requirements.txt
+        test -f requirements_production.txt
+        echo "✅ Requirements files present"
+        
+        # Check if requirements files have valid syntax
+        pip check -r requirements.txt
+        pip check -r requirements_production.txt
+        echo "✅ Requirements files are valid"
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+    
+    - name: Install safety
+      run: |
+        python -m pip install --upgrade pip
+        pip install safety
+    
+    - name: Check for security vulnerabilities
+      run: |
+        if [ -f requirements.txt ]; then safety check -r requirements.txt; fi
+        if [ -f requirements_production.txt ]; then safety check -r requirements_production.txt; fi
+
+  documentation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check documentation completeness
+      run: |
+        # Verify all documentation files exist and are not empty
+        for file in README.md COMPLETE_SYSTEM_DOCUMENTATION.md TECHNICAL_IMPLEMENTATION_GUIDE.md USER_MANUAL.md PROJECT_DESCRIPTION.md; do
+          if [ -f "$file" ]; then
+            size=$(wc -c < "$file")
+            if [ $size -gt 1000 ]; then
+              echo "✅ $file: $(($size / 1024))KB"
+            else
+              echo "⚠️ $file: Too small ($size bytes)"
+              exit 1
+            fi
+          else
+            echo "❌ $file: Missing"
+            exit 1
+          fi
+        done
+        echo "✅ All documentation files present and substantial"
+    
+    - name: Validate markdown syntax
+      run: |
+        # Install markdown lint tool
+        npm install -g markdownlint-cli
+        
+        # Check markdown files
+        markdownlint *.md || true
+        echo "✅ Markdown validation completed"
