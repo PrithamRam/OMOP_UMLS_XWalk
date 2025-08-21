@@ -1,0 +1,58 @@
+# Production Requirements for OMOP-UMLS Crosswalk
+# Extends base requirements.txt with persistent infrastructure
+
+# Base requirements (from requirements.txt)
+pandas>=1.5.0
+numpy>=1.21.0
+networkx>=2.8.0
+scikit-learn>=1.1.0
+psutil>=5.9.0
+openpyxl>=3.0.10
+xlsxwriter>=3.0.0
+pyyaml>=6.0
+pytest>=7.0.0
+pytest-cov>=4.0.0
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.2.0
+
+# Production-specific requirements
+
+# Neo4j graph database
+neo4j>=5.0.0
+
+# OpenAI for LLM enhancement
+openai>=1.0.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# Additional database support
+duckdb>=0.8.0  # For analytical queries on large datasets
+
+# Enhanced caching and serialization
+redis>=4.0.0  # Optional: for distributed caching
+joblib>=1.3.0  # For efficient serialization
+
+# Monitoring and logging
+prometheus-client>=0.16.0  # For production monitoring
+structlog>=23.0.0  # Structured logging
+
+# API and web interface (optional)
+fastapi>=0.100.0  # For REST API
+uvicorn>=0.22.0  # ASGI server
+
+# Data validation
+pydantic>=2.0.0  # Data validation and settings
+
+# Progress bars and utilities
+tqdm>=4.65.0  # Progress bars for long-running processes
+click>=8.1.0  # Command line interface
+
+# Memory profiling (development)
+memory-profiler>=0.60.0
+pympler>=0.9
+
+# Graph visualization (optional)
+matplotlib>=3.7.0
+plotly>=5.15.0
+bokeh>=3.2.0

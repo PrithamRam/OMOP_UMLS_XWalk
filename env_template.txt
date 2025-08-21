@@ -1,0 +1,34 @@
+# Environment Configuration for OMOP-UMLS Production System
+# Copy this file to .env and fill in your actual values
+
+# OpenAI API Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Neo4j Database Configuration (optional)
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=your_neo4j_password_here
+
+# Production Data Paths
+OMOP_DATA_PATH=/path/to/your/omop/cdm/data
+UMLS_GRAPH_PATH=/path/to/your/umls/knowledge/graph
+PRODUCTION_OUTPUT_PATH=/path/to/production/output
+
+# Processing Configuration
+MAX_WORKERS=8
+MEMORY_LIMIT_GB=16
+CHUNK_SIZE=100000
+
+# LLM Configuration
+LLM_MODEL=gpt-3.5-turbo
+LLM_BATCH_SIZE=5
+LLM_CONFIDENCE_THRESHOLD=0.7
+
+# Caching Configuration
+ENABLE_SEMANTIC_CACHE=true
+ENABLE_NEO4J=true
+ENABLE_LLM_VALIDATION=true
+
+# Monitoring Configuration
+ENABLE_MONITORING=true
+LOG_LEVEL=INFO

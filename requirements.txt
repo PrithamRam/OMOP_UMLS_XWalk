@@ -1,0 +1,36 @@
+# OMOP-UMLS Crosswalk System Requirements
+# Core data processing
+pandas>=1.5.0
+numpy>=1.21.0
+
+# Graph processing and knowledge graphs
+networkx>=2.8.0
+
+# Machine learning and similarity
+scikit-learn>=1.1.0
+
+# System monitoring and performance
+psutil>=5.9.0
+
+# File format support
+openpyxl>=3.0.10  # Excel files
+xlsxwriter>=3.0.0  # Excel writing
+
+# Logging and configuration
+pyyaml>=6.0
+
+# Optional: Enhanced text processing
+# nltk>=3.8.0  # Uncomment if advanced NLP needed
+# spacy>=3.4.0  # Uncomment if advanced NLP needed
+
+# Optional: Advanced graph algorithms
+# python-igraph>=0.10.0  # Uncomment if needed for graph analysis
+# graph-tool>=2.45  # Uncomment if needed for large-scale graph processing
+
+# Development and testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Documentation
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.2.0
